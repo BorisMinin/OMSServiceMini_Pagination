@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OMSServiceMini.Data;
-
+// in this project i will add pagination in my OMSServiceMini project
 namespace OMSServiceMini
 {
     public class Startup
