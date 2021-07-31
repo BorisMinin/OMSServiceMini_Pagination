@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OMSServiceMini.Pagination.Filter;
+using OMSServiceMini.Pagination.Wrappers;
 
-namespace OMSServiceMini.Wrappers
+namespace OMSServiceMini.Pagination.Wrappers
 { // add pagination
     public class PagedResponse<T> : Response<T>
     {

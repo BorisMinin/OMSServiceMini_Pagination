@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OMSServiceMini.Data;
 using OMSServiceMini.Models;
+using OMSServiceMini.Pagination.Filter;
+using OMSServiceMini.Pagination.Wrappers;
 
 namespace OMSServiceMini.Controllers
 {
@@ -19,6 +21,16 @@ namespace OMSServiceMini.Controllers
         {
             _northwindContext = northwindContext;
         }
+
+        #region GET all customers with using pagination
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var response = await _northwindContext.Customers.ToListAsync();
+            return Ok(response);
+        }
+        #endregion
 
         #region GET country without fax
         //// get api/customeres/country
@@ -116,7 +128,7 @@ namespace OMSServiceMini.Controllers
         /// Получить общую сумму заказов для каждого покупателя
         /// </summary>
         /// <returns>Список id покупателей и общей суммой их заказа</returns>
-        
+
         // get api/customers
         //[HttpGet]
         //public async Task<IEnumerable<OrderDetail>> GetUnitPriceOfCustomers()
