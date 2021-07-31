@@ -23,14 +23,48 @@ namespace OMSServiceMini.Controllers
         }
 
         #region GET all customers with using pagination
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
+        //{
+        //    var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+        //    var response = await _northwindContext.Customers.ToListAsync();
+
+        //    var pagedData = await _northwindContext.Customers
+        //       .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+        //       .Take(validFilter.PageSize)
+        //       .ToListAsync();
+
+        //    //var pagedData = await _northwindContext.Customers
+        //    //    .Select(c => new Customers)
+        //    //   .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+        //    //   .Take(validFilter.PageSize)
+        //    //   .ToListAsync();
+
+        //    return Ok(pagedData);
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers([FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-            var response = await _northwindContext.Customers.ToListAsync();
-            return Ok(response);
+
+            var pagedData = await _northwindContext.Customers
+                .Select(c => new Customer
+                {
+                    CustomerId = c.CustomerId,
+                    CompanyName = c.CompanyName,
+                    City = c.City
+                })
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+
+            return Ok(pagedData);
         }
+
         #endregion
+
+
 
         #region GET country without fax
         //// get api/customeres/country
@@ -137,4 +171,4 @@ namespace OMSServiceMini.Controllers
         //}
         #endregion
     }
-}
+    }
